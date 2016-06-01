@@ -1,0 +1,162 @@
+
+Thank you for contacting Webroot Enterprise Support. 
+
+The commands they can be used in terminal are below, and I also have under that a deployment script you could review/use: 
+
+-silent 
+Installation will be silent: 
+
+sudo "/Applications/Webroot SecureAnywhere.app/Contents/MacOS/Webroot SecureAnywhere" install -keycode= -silent 
+
+-proxy_auth= 
+-proxy_host= 
+-proxy_port= 
+-proxy_user= 
+-proxy_pass= 
+
+Designates proxy install arguments including authentication method, host, port, user and password: 
+
+auth_any_0 
+auth_basic_1 
+auth_digest_2 
+auth_negociate_3 
+auth_ntlm_4 
+
+open "/Applications/Webroot SecureAnywhere.app" --args install -keycode= -proxy_auth=auth_any_0 -proxy_host= -proxy_port= -proxy_user= -proxy_pass= 
+
+
+-keycode=	
+Installation will not prompt for keycode: 
+
+open "/Applications/Webroot SecureAnywhere.app" --args install -keycode= 
+
+-language=	
+Installs with designated language: 
+(need complete list of languages) 
+
+open "/Applications/Webroot SecureAnywhere.app" --args install -language=en 
+
+
+Full String	
+sudo "/Applications/Webroot SecureAnywhere.app/Contents/MacOS/Webroot SecureAnywhere" install -keycode=XXXX-XXXX-XXXX-XXXX-XXXX -language=en –silent -proxy_auth=auth_basic_1 -proxy_host=proxy.proxy.com -proxy_port=8080 -proxy_user=proxyuser.com -proxy_pass=proxypass 
+
+======================== 
+
+Below is a Script for mass deploying our WSA Mac client. Please be aware that this is not a supported tool, and should only be used by those that are aware of the dangers of mistyping a script. Please copy the corresponding information needed and create a text document with it. Save the file as a ".sh" with Linebreaks UNIX (LF) and Encoding UNICODE (UTF-8). 
+
+If you are not using a proxy, copy the top one of the two provided. If you are using a proxy, copy the second one below. You will need to fill in the "KEY=" section of the script with your keycode, i.e. "KEY=xxxx-xxxx-xxxx-xxxx". If you are using a proxy, you will need to fill in the proxy settings as well, "host=", "port=", "user=", and "password=". 
+
+(NON-Proxy) 
+
+#!/bin/sh 
+#set -x 
+
+#Set Keycode for Clients 
+
+KEY= 
+
+sleep 2 
+
+clear 
+
+#Download WSA mac client 
+
+cd /tmp; curl -O http://anywhere.webrootcloudav.com/zerol/wsamacsme.dmg 
+
+echo Please wait while file is downloaded and mounted 
+
+wait 15 
+
+#Mount the DMG file 
+
+hdiutil attach /tmp/wsamacsme.dmg 
+
+#copy app from dmg to applications 
+
+ditto /Volumes/Webroot\ SecureAnywhere /Applications/ 
+
+wait 10 
+
+#run silent install 
+
+sudo "/Applications/Webroot SecureAnywhere.app/Contents/MacOS/Webroot SecureAnywhere" install -keycode=$KEY -silent 
+
+wait 30 
+
+#Unmount the DMG 
+
+diskutil list | grep Webroot\ SecureAnywhere | diskutil unmount /Volumes/Webroot\ SecureAnywhere 
+
+#Remove the DMG 
+
+rm -rf /tmp/wsamacsme.dmg 
+
+
+
+(Proxy) 
+
+#!/bin/sh 
+#set -x 
+
+#Set Keycode for Clients 
+
+KEY= 
+
+#Proxy Settings 
+
+host= 
+port= 
+user= 
+password= 
+
+sleep 2 
+
+clear 
+
+#Download WSA mac client 
+
+cd /tmp; curl -O http://anywhere.webrootcloudav.com/zerol/wsamacsme.dmg 
+
+echo Please wait while file is downloaded and mounted 
+
+wait 15 
+
+#Mount the DMG file 
+
+hdiutil attach /tmp/wsamacsme.dmg 
+
+#copy app from dmg to applications 
+
+ditto /Volumes/Webroot\ SecureAnywhere /Applications/ 
+
+wait 10 
+
+#run silent install 
+
+#sudo "/Applications/Webroot SecureAnywhere.app/Contents/MacOS/Webroot SecureAnywhere" install -keycode=$KEY -language=en –silent -proxy_auth=auth_basic_1 -proxy_auth=auth_any_0 -proxy_host=$host -proxy_port=$port -proxy_user=$user -proxy_pass=$password 
+
+wait 30 
+
+#Unmount the DMG 
+
+diskutil list | grep Webroot\ SecureAnywhere | diskutil unmount /Volumes/Webroot\ SecureAnywhere 
+
+#Remove the DMG 
+
+rm -rf /tmp/wsamacsme.dmg 
+
+
+Please let us know if you have any further questions or concerns. 
+
+Regards, 
+Patrick,
+The Webroot Enterprise Support Team.
+
+To view the original ticket, you can log into your Webroot Console. To access your console, click the link below or copy and paste it into your browser:
+
+https://mysupport.webrootanywhere.com/supportwelcome.aspx
+
+You can reply to this message by replying to this email directly or from your Webroot Console.
+
+Regards,
+The Webroot Support Team
